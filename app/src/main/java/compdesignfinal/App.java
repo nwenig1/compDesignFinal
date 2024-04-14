@@ -34,7 +34,6 @@ public class App {
         for(int i=0; i< registers.length; i++){
         registers[i] = registers[i].trim(); 
         registers[i] = registers[i].replaceAll("[$,]", ""); 
-        System.out.println(registers[i]);
         }
         
         StringBuilder binaryInstruction = new StringBuilder("000000"); //r type, funct code will be 0
@@ -63,13 +62,36 @@ private static String sNumtos6Bit(String sNum){
     return binaryString; 
 }
 //handles funct codes for all class 1 instructions
-//TODO: implement functionality for these:
-//sllv, srlv, srav, add, sub, subu, and, or, xor, nor, slt, sltu
 private static String getFunctCodeClass1(String instruction){
-    if(instruction.subSequence(0, 4).equals("addu")){
+     if(instruction.subSequence(0, 4).equals("sllv")){
+        return sNumtos6Bit("4"); 
+    }else if(instruction.subSequence(0, 4).equals("srlv")){
+        return sNumtos6Bit("6"); 
+    }else if(instruction.subSequence(0, 4).equals("srav")){
+        return sNumtos6Bit("7"); 
+    } else if(instruction.subSequence(0, 3).equals("add")){
+        return sNumtos6Bit("32"); 
+    } else if(instruction.subSequence(0, 4).equals("addu")){
         return sNumtos6Bit("33"); 
+    } else if(instruction.subSequence(0, 3).equals("sub")){
+        return sNumtos6Bit("34"); 
+    } else if(instruction.subSequence(0, 4).equals("subu")){
+        return sNumtos6Bit("35"); 
+    } else if(instruction.subSequence(0, 3).equals("and")){
+        return sNumtos6Bit("36"); 
+    } else if(instruction.subSequence(0, 2).equals("or")){
+        return sNumtos6Bit("37"); 
+    } else if (instruction.subSequence(0, 3).equals("xor")){
+        return sNumtos6Bit("38"); 
+    } else if(instruction.subSequence(0, 3).equals("nor")){
+        return sNumtos6Bit("39"); 
+    } else if(instruction.subSequence(0, 3).equals("slt")){
+        return sNumtos6Bit("42"); 
+    } else if(instruction.subSequence(0, 4).equals("sltu")){
+        return sNumtos6Bit("43"); 
+    }else{
+        System.out.println("Invalid class 1 instruction got here");
+    return "0"; 
+        }
     }
-
-    return ""; 
-}
 }
