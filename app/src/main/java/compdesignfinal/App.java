@@ -5,11 +5,8 @@
 package compdesignfinal;
 import java.util.Scanner;
 
-import com.google.common.collect.SortedMultiset;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
     //Instructions supported:
     //sllv, srlv, srav, add, addu, sub, subu, and, or, xor, nor, slt, sltu
     //addiu, addi, sltiu, slti, andi, ori, xori
@@ -19,14 +16,17 @@ public class App {
         System.out.println("Welcome to the Instruction to binary converter!"); 
         System.out.println("This was done by Noah Wenig for the final project in his computer design course.");
         while(goAgain){
-        System.out.println("Enter the MIPS instruction you'd like to be converted to binary: ");
+        System.out.println("Enter the MIPS instruction you'd like to be converted to binary(or quit to exit): ");
         
         String instruction = scanner.nextLine(); 
-        System.out.println("instruction was " + instruction);
-        //CHECK FOR CLASS 2 ONES FIRST (longer, if i check for and before andi, and i will never trigger)
-        if(instruction.subSequence(0, 4).equals("addi")){
-            String ret = handleClass2(instruction); 
-            System.out.println(ret);
+        if(instruction.subSequence(0, 5).equals("addiu") ||
+            instruction.subSequence(0, 4).equals("addi") ||
+            instruction.subSequence(0, 5).equals("sltiu") || 
+            instruction.subSequence(0, 4).equals("slti") || 
+            instruction.subSequence(0, 4).equals("andi") ||
+            instruction.subSequence(0, 3).equals("ori") ||
+            instruction.subSequence(0, 4).equals("xori")){
+            System.out.println(handleClass2(instruction)); 
         }
         else if(instruction.subSequence(0, 4).equals("sllv") ||
             instruction.subSequence(0, 4).equals("srlv") ||
@@ -41,12 +41,14 @@ public class App {
             instruction.subSequence(0, 3).equals("nor") ||
             instruction.subSequence(0, 3).equals("slt") ||
             instruction.subSequence(0, 4).equals("sltu")){
-            String ret = handleClass1(instruction); 
-            System.out.println(ret); 
+            System.out.println(handleClass1(instruction)); 
+        } else if(instruction.toLowerCase().equals("quit")){
+            goAgain = false; 
+        } else{
+            System.out.println("Unsupported instruction entered");
         }
-            
-        
-    }
+    } //end of while loop
+        System.out.println("Thanks for trying me!");
         scanner.close();
     }
     //class 1 instructions are what I'm calling R-type instructions
@@ -54,7 +56,6 @@ public class App {
     //all class 1 instructions: 
     //sllv, srlv, srav, add, addu, sub, subu, and, or, xor, nor, slt, sltu
     private static String handleClass1(String instruction){
-        
         String[] registers = ((String) instruction.subSequence(4, instruction.length())).split(",");
         //^^ this is sketchy, but ends up working because of dollar signs (even with an or, 4th index will be the first number)
         for(int i=0; i< registers.length; i++){
