@@ -19,6 +19,11 @@ public class App {
         System.out.println("Enter the MIPS instruction you'd like to be converted to binary(or quit to exit): ");
         
         String instruction = scanner.nextLine(); 
+        //refactoring idea to make this cleaner:
+        //each if check will call the handleClassn function, but give it a second argumenr
+        //that second argument will be a String of the number of its op code (class2) or function code (class1)
+        //then I just use that second argument to get the op/funct code
+        //instead of 2 repeated super long if chains
         if(instruction.subSequence(0, 5).equals("addiu") ||
             instruction.subSequence(0, 4).equals("addi") ||
             instruction.subSequence(0, 5).equals("sltiu") || 
